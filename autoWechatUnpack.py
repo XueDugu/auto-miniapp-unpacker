@@ -10,7 +10,7 @@ button_style = {"width": 15, "height": 2, "padx": 50, "pady": 10, "bd": 4, "reli
 
 root = tk.Tk()
 root.title("微信自动解包")
-root.geometry("370x700")
+root.geometry("370x730")
 # 设置窗口大小
 
 text_label = tk.Label(root, text="记录栏", font=('Helvetica', 12, 'bold'))
@@ -120,7 +120,7 @@ def Auto():
     files = [f for f in os.listdir(file) if os.path.isfile(os.path.join(file, f))]
     matching_files = [f for f in files if f.endswith(".wxapkg")]
     for f in matching_files:
-        unpacker_path = r"D:\wechatunpacker\bingo.bat"
+        unpacker_path = tool_entry.get()
         address=os.path.join(file, f)
         command = f'{unpacker_path} {shlex.quote(address)}'
         result = subprocess.run(command, shell=True, capture_output=True, text=True)
@@ -136,5 +136,10 @@ listen_btn.grid(row=7, column=0, pady=10)
 # D:\wechatunpacker\bingo.bat .wxapkg
 auto_btn= tk.Button(root, text="自动获取解包", command=clear_text_box, **button_style)
 auto_btn.grid(row=8, column=0, pady=10)
+
+tool_entry = tk.Entry(root)
+tool_entry.grid(row=10, column=0, pady=10)
+tool_entry.insert(0, "D:\\wechatunpacker\\bingo.bat")
+tool_entry.bind("<Return>", get_file)
 
 root.mainloop()
